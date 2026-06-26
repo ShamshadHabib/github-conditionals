@@ -1,0 +1,17 @@
+name: simple-if-condition
+
+on: push
+
+jobs:
+  printname:
+    runs-on: ubuntu-latest
+    steps:
+      - name: printing name
+        run: echo "Shamshad"
+        id: firststep
+        
+  secondjob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: hello world
+        run: echo "hello world"
