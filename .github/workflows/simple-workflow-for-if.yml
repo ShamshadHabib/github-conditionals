@@ -1,17 +1,55 @@
-name: simple-if-condition
+name: Practice If Conditions
 
-on: push
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Deploy application?'
+        required: true
+        default: 'no'
+        type: choice
+        options:
+          - yes
+          - no
+
+env:
+  ENVIRONMENT: DEV
 
 jobs:
-  printname:
+  practice:
     runs-on: ubuntu-latest
+
     steps:
-      - name: printing name
-        run: echo "Shamshad"
-        id: firststep
-        
-  secondjob:
-    runs-on: ubuntu-latest
-    steps:
-      - name: hello world
-        run: echo "hello world"
+      - name: Always runs
+        run: echo "Step 1 - Always"
+
+      - name: Run only if deploy=yes
+        if: github.event.inputs.deploy == 'yes'
+        run: echo "Deploy requested"
+
+      - name: Run only if deploy=no
+        if: github.event.inputs.deploy == 'no'
+        run: echo "Deploy NOT requested"
+
+      - name: Run only on main branch
+        if: github.ref == 'refs/heads/main'
+        run: echo "Running on main"
+
+      - name: Run only if ENVIRONMENT is DEV
+        if: env.ENVIRONMENT == 'DEV'
+        run: echo "Development environment"
+
+      - name: Force failure
+        run: exit 1
+
+      - name: Runs only if previous step failed
+        if: failure()
+        run: echo "A previous step failed"
+
+      - name: Runs only if all previous steps succeeded
+        if: success()
+        run: echo "Everything succeeded"
+
+      - name: Always runs
+        if: always()
+        run: echo "Cleanup step"
