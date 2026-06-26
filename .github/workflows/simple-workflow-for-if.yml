@@ -34,7 +34,7 @@ jobs:
         run: echo "Deploy NOT requested"
 
       - name: Run only on main branch
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: echo "Running on main"
 
       - name: Run only if ENVIRONMENT is DEV
