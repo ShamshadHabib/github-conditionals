@@ -3,7 +3,7 @@ name: 80% coverage
 on:
   workflow_dispatch:
     inputs:
-      Enironment: 
+      Environment: 
         description: "Choose env"
         required: true
         default: DEV
@@ -22,13 +22,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: dev env step
-        if: github.event.inputs.Enironment == 'DEV'
+        if: github.event.inputs.Environment == 'DEV'
         run: echo "DEV STEP is selected"
       - name: test env step
-        if: github.event.inputs.Enironment == 'TEST'
+        if: github.event.inputs.Environment == 'TEST'
         run: echo "DEV STEP is selected"
       - name: prod env step
-        if: github.event.inputs.Enironment == 'PROD'
+        if: github.event.inputs.Environment == 'PROD'
         run: echo "DEV STEP is selected"      
       - name: clean up 
         if: always()

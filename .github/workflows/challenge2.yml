@@ -1,0 +1,42 @@
+name: challenge 02
+
+# Job 1 performs a build and outputs status=success.
+# Job 2 runs only if Job 1's output is success.
+# Job 3 runs only if Job 2 fails.
+
+on: 
+  workflow_dispatch:
+    inputs:
+      status:
+        description: Select success or fail 
+        required: true
+        type: choice
+        options:
+          - success
+          - failed
+
+jobs:
+  task1:
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{steps.jobstatus.output.status}}
+    steps:
+      - name: build
+        run: echo "build"
+      - id: jobstatus
+        run: echo "status=success" >> $GITHUB_OUTPUT
+      - name: print success
+        run: ${{steps.jobstatus.output.status}}
+  task2:
+    needs: task1
+    if: ${{needs.task1.outputs.status == 'success'}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: if success
+        run: echo "success"
+  task3:
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: failure case
+        run: echo "failed"
