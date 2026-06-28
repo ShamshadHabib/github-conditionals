@@ -19,7 +19,9 @@ jobs:
         run: echo "name"
       - name: second step 
         if: success()
-        run: echo "Successful"
+        run: |
+          echo "Successful"
+          exit 1
       - name: third setp (failure)
         if: failure()
         run: |
