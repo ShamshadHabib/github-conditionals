@@ -1,0 +1,25 @@
+name: conditional workflow
+
+on: 
+  workflow_dispatch:
+  push:
+      branches:
+        - main 
+        - master
+
+env:
+  GLOBAL: true
+
+jobs:
+  first:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print name 
+        if: env.GLOBAL == true
+        run: echo "name"
+      - name: second step 
+        if: success()
+        run: echo "Successful"
+      - name: third setp (failure)
+        if: failure()
+        run: echo "Failed previous step"
