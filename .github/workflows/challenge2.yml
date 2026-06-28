@@ -19,14 +19,16 @@ jobs:
   task1:
     runs-on: ubuntu-latest
     outputs:
-      status: ${{steps.jobstatus.output.status}}
+      status: ${{steps.jobstatus.outputs.status}}
     steps:
       - name: build
         run: echo "build"
       - id: jobstatus
         run: echo "status=success" >> $GITHUB_OUTPUT
       - name: print success
-        run: ${{steps.jobstatus.output.status}}
+        run: |
+          echo ${{steps.jobstatus.outputs.status}}
+          echo ${{github.event.inputs.status}}
   task2:
     needs: task1
     if: ${{needs.task1.outputs.status == 'success'}}
