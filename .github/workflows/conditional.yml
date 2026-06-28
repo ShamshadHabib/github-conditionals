@@ -11,20 +11,18 @@ env:
   GLOBAL: true
 
 jobs:
-  outputvar:
+  first:
+    runs-on: ubuntu-latest
     outputs:
-      jobResult: ${{steps.setoutputvar.outputs.result}}
+      # result: ${{steps.<id>.outputs.<actual-var>}}
+      jobresult: ${{steps.setoutput.outputs.result}}
+    steps:
+      - id: setoutput
+        run: echo "result=success" >> $GITHUB_OUTPUT
+  second:
+    needs: first
     runs-on: ubuntu-latest
     steps:
-      - id: setoutputvar
-        run: echo "result=failed">> $GITHUB_OUTPUT
-      - name: check value
-        run: echo "result => ${{steps.setoutputvar.outputs.result}}"
-  
-  useoutputvar:
-    needs: outputvar
-    if: ${{needs.outputvar.outputs.jobResult=='success'}}
-    runs-on: ubuntu-latest
-    steps:
-      - name: utilized output 
-        run: echo "actual => ${{needs.outputvar.outputs.jobResult}}"
+      - name: check output var value
+      # run: ${{needs.<jobname>.outputs.<namevariable>}}
+        run: echo ${{needs.first.outputs.jobresult}}
