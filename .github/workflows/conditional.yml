@@ -11,27 +11,19 @@ env:
   GLOBAL: true
 
 jobs:
-  output-job:
-    runs-on: ubuntu-latest
-    # Map the step output to a job-level output
+  outputvar:
     outputs:
-      job_result: ${{ steps.set-output.outputs.result }}
-    steps:
-      - id: set-output
-        run: echo "result=success" >> $GITHUB_OUTPUT
-        
-      - name: show value
-        # Correct way to read an output within the same job
-        run: echo "${{ steps.set-output.outputs.result }}"
-
-  build:
-    needs: output-job
-    # Corrected conditional (if you decide to uncomment it)
-    # if: needs.output-job.outputs.job_result == 'success'
+      jobResult: ${{steps.setoutputvar.outputs.result}}
     runs-on: ubuntu-latest
     steps:
-      - name: check result 
-        run: |
-          # Correct way to read an output from a previous job
-          echo "${{ needs.output-job.outputs.job_result }}"
-          echo "Deploying application"
+      - id: setoutputvar
+        run: echo "result=success">> $GITHUB_OUTPUT
+      - name: check value
+        run: echo "result => ${{steps.setoutputvar.outputs.result}}"
+  
+  useoutputvar:
+    needs: outputvar
+    runs-on: ubuntu-latest
+    steps:
+      - name: utilized output 
+        run: echo "actual => ${{needs.outputvar.outputs.result}}"
