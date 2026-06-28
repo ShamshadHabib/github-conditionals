@@ -1,0 +1,55 @@
+name: production grade challenge
+
+on: 
+  workflow_dispatch:
+    inputs:
+      selectresult:
+        description: Test fail or pass
+        type: choice
+        default: pass
+        options:
+          - fail 
+          - pass
+        
+jobs:
+  build:
+    if: always()
+    runs-on: ubuntu-latest
+    outputs:
+      build_status: ${{steps.buildstatus.outputs.status}}
+    steps:
+      - name: print job name
+        run: echo "build"
+      - id: buildstatus
+        run: echo "status=success" >> $GITHUB_OUTPUT
+  test:
+    needs: build
+    if: needs.build.outputs.build_Status == 'success'
+    outputs:
+      test_result: ${{steps.testresult.outputs.result}}
+    runs-on: ubuntu-latest
+    steps:
+      - id: testresult
+        run: echo "result=${{github.event.inputs.selectresult}}" >> $GITHUB_OUTPUT
+  deploy:
+    needs: test
+    if: needs.test.result=='success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy build
+        run: echo "Deploying job is running...."
+      - name: simualte success 
+        if: github.event.inputs.selectresult == 'pass'
+        run: echo "Deploy passed"
+      - name: simualte fail 
+        if: github.event.inputs.selectresult == 'fail'
+        run: |
+          echo "Deploy failed"
+          exit 1
+  rollback:
+    needs: deploy
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: step to rollback 
+        run: echo "rolling back"

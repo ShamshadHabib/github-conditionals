@@ -38,7 +38,7 @@ jobs:
         if: needs.task1.outputs.status == 'success'
         run: echo "success"
       - name: fail when requested
-        if: github.event.inputs.status=='failed'
+        if: needs.task1.outputs.status=='failed'
         run: exit 1
   task3:
     needs: task2
