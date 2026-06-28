@@ -42,7 +42,7 @@ jobs:
         run: exit 1
   task3:
     needs: task2
-    if: ${{ failure() && github.event.inputs.status=='failed'}}
+    if: failure()
     runs-on: ubuntu-latest
     steps:
       - name: failure case
