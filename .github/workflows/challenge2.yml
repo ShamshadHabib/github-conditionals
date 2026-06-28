@@ -17,7 +17,6 @@ on:
 
 jobs:
   task1:
-    if: ${{github.event.inputs.status=='success'}}
     runs-on: ubuntu-latest
     outputs:
       status: ${{steps.jobstatus.outputs.status}}
@@ -30,6 +29,9 @@ jobs:
         run: |
           echo ${{steps.jobstatus.outputs.status}}
           echo ${{github.event.inputs.status}}
+      - name: fail when requested
+        if: ${{github.event.inputs.status=='failed'}}
+        run: exit 1
   task2:
     needs: task1
     if: ${{needs.task1.outputs.status == 'success'}}
@@ -38,7 +40,7 @@ jobs:
       - name: if success
         run: echo "success"
   task3:
-    needs: task2
+    # needs: task2
     if: ${{ failure() && github.event.inputs.status=='failed'}}
     runs-on: ubuntu-latest
     steps:
