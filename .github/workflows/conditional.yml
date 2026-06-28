@@ -25,10 +25,10 @@ jobs:
         if: github.event.inputs.Enironment == 'DEV'
         run: echo "DEV STEP is selected"
       - name: test env step
-        if: github.event.inputs.Enironment == 'DEV'
+        if: github.event.inputs.Enironment == 'TEST'
         run: echo "DEV STEP is selected"
       - name: prod env step
-        if: github.event.inputs.Enironment == 'DEV'
+        if: github.event.inputs.Enironment == 'PROD'
         run: echo "DEV STEP is selected"      
       - name: clean up 
         if: always()
