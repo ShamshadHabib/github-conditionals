@@ -16,14 +16,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: set-output
-        name: setting output
         run: echo "result=success" >> $GITHUB_OUTPUT
       - name: show value
         run: echo "{{$GITHUB_OUTPUT.result}}"
   build:
     needs: output-job
-    if: needs.output-job.output.set-output == 'success'
+    # if: needs.output-job.output.set-output == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: check result 
-        run: echo "Deploying application"
+        run: |
+          echo {{$needs.output-job.output.set-output}}
+          echo "Deploying application"
