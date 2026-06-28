@@ -11,18 +11,22 @@ env:
   GLOBAL: true
 
 jobs:
-  first:
+  outputsetter:
     runs-on: ubuntu-latest
     outputs:
-      # result: ${{steps.<id>.outputs.<actual-var>}}
-      jobresult: ${{steps.setoutput.outputs.result}}
+      # namedvar: steps context with id of the step + output + var to set
+      myjob: ${{steps.setoutput.outputs.result}}
     steps:
       - id: setoutput
         run: echo "result=success" >> $GITHUB_OUTPUT
-  second:
-    needs: first
+      - name: check set output var value
+        run: |
+          echo "result: ${{steps.setoupt.outputs.result}}"
+          echo "myjob: ${{steps.setoupt.outputs.myjob}}"
+
+  outputgetter:
     runs-on: ubuntu-latest
+    needs: outputsetter
     steps:
-      - name: check output var value
-      # run: ${{needs.<jobname>.outputs.<namevariable>}}
-        run: echo ${{needs.first.outputs.jobresult}}
+      - name: check value
+        run: echo ${{needs.outputsetter.outputs.myjob}}
