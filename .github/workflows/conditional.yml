@@ -26,5 +26,5 @@ jobs:
     steps:
       - name: check result 
         run: |
-          echo {{$needs.output-job.output.set-output}}
+          echo {{$needs.output-job.outputs.set-output}}
           echo "Deploying application"
