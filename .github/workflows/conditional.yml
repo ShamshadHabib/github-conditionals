@@ -26,4 +26,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: utilized output 
-        run: echo "actual => ${{needs.outputvar.outputs.result}}"
+        run: echo "actual => ${{needs.outputvar.outputs.jobResult}}"
