@@ -32,10 +32,10 @@ jobs:
      
   task2:
     needs: task1
-    if: needs.task1.outputs.status == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: if success
+        if: needs.task1.outputs.status == 'success'
         run: echo "success"
       - name: fail when requested
         if: github.event.inputs.status=='failed'
