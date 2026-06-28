@@ -14,8 +14,11 @@ jobs:
 
   output-job:
     runs-on: ubuntu-latest
+    outputs:
+      result: ${{steps.set-output.outputs.result}}
     steps:
-      - id: set-output
+      - name: setting set-output
+        id: set-output
         run: echo "result=success" >> $GITHUB_OUTPUT
       - name: show value
         run: echo "{{$GITHUB_OUTPUT.result}}"
