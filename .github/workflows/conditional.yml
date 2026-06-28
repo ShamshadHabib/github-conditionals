@@ -21,6 +21,18 @@ jobs:
   checkselection:
     runs-on: ubuntu-latest
     steps:
-      - name: user selection
-        run: echo ${{github.event.inputs.Enironment}}
-
+      - name: dev env step
+        if: github.event.inputs.Enironment == 'DEV'
+        run: echo "DEV STEP is selected"
+      - name: test env step
+        if: github.event.inputs.Enironment == 'DEV'
+        run: echo "DEV STEP is selected"
+      - name: prod env step
+        if: github.event.inputs.Enironment == 'DEV'
+        run: echo "DEV STEP is selected"      
+      - name: clean up 
+        if: always()
+        run: echo "Clean up Always"
+      - name: failed step
+        if: failure()
+        run: "failed step"
