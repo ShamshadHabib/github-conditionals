@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: setoutputvar
-        run: echo "result=success">> $GITHUB_OUTPUT
+        run: echo "result=failed">> $GITHUB_OUTPUT
       - name: check value
         run: echo "result => ${{steps.setoutputvar.outputs.result}}"
   
