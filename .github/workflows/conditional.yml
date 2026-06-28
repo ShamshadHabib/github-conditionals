@@ -25,5 +25,4 @@ jobs:
       - name: Third step (failure)
         if: failure()
         run: |
-          echo "Is failed: ${{ failure() }}"
           echo "Failed previous step"
