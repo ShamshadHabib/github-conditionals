@@ -24,7 +24,7 @@ jobs:
       - name: build
         run: echo "build"
       - id: jobstatus
-        run: echo "status=success" >> $GITHUB_OUTPUT
+        run: echo "status=${{github.event.inputs.status}}" >> $GITHUB_OUTPUT
       - name: print success
         run: |
           echo ${{steps.jobstatus.outputs.status}}
