@@ -19,7 +19,7 @@ jobs:
         name: setting output
         run: echo "result=success" >> $GITHUB_OUTPUT
       - name: show value
-        run: echo "$GITHUB_OUTPUT.result"
+        run: echo "{{$GITHUB_OUTPUT.result}}"
   build:
     needs: output-job
     if: needs.output-job.output.set-output == 'success'
