@@ -17,6 +17,7 @@ on:
 
 jobs:
   task1:
+    if: ${{github.event.inputs.status=='success'}}
     runs-on: ubuntu-latest
     outputs:
       status: ${{steps.jobstatus.outputs.status}}
@@ -38,7 +39,7 @@ jobs:
         run: echo "success"
   task3:
     needs: task2
-    if: ${{ failure() && github.event.inputs.status=='failed'}}
+    if: ${{ always() && (needs.task2.result == 'failure' || github.event.inputs.status == 'failed') }}
     runs-on: ubuntu-latest
     steps:
       - name: failure case
