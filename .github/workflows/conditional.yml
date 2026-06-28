@@ -23,6 +23,7 @@ jobs:
   
   useoutputvar:
     needs: outputvar
+    if: ${{needs.outputvar.outputs.jobResult=='success'}}
     runs-on: ubuntu-latest
     steps:
       - name: utilized output 
