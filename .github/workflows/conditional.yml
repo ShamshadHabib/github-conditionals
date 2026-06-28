@@ -23,5 +23,6 @@ jobs:
       - name: third setp (failure)
         if: failure()
         run: |
+          echo failure()
           exit 1
           echo "Failed previous step"
