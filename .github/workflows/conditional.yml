@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: print name 
-        if: env.GLOBAL == true
+        if: env.GLOBAL == 'true'
         run: echo "name"
       - name: second step 
         if: success()
