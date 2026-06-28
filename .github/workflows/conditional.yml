@@ -6,7 +6,7 @@ on:
       Enironment: 
         description: "Choose env"
         required: true
-        default: 'DEV'
+        default: DEV
         type: choice
         options:
           - DEV
