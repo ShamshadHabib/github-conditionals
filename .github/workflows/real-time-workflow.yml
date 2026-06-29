@@ -58,7 +58,7 @@ jobs:
     steps:
     - name: deployment status 
       if: github.event.inputs.deploy_result == 'success'
-      run: echo "Unit test passed and deployed version ${{needs.build.outputs.appversion}}"
+      run: echo "Successfully deployed version ${{ needs.build.outputs.appversion }} to production"
     - name: failed 
       if: github.event.inputs.deploy_result == 'failed'
       run: exit 1
