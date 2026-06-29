@@ -61,3 +61,10 @@ jobs:
     - name: failed 
       if: github.event.inputs.deploy_result == 'failed'
       run: exit 1
+  rollback:
+    needs: [build,deploy-staging]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: rolling back 
+        run: echo "Rolling back version ${{needs.build.outputs.appversion}}"
