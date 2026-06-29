@@ -1,0 +1,63 @@
+name: real world workflow
+
+on: 
+  workflow_dispatch:
+    inputs:
+      test_result:
+        description: select unit test results
+        type: choice
+        options: [success,failed]
+      deploy_result:
+        description: select deployment status
+        type: choice
+        options: [success,failed]
+        
+        
+jobs:
+  build:
+    if: always()
+    runs-on: ubuntu-latest
+    outputs:
+      appversion: ${{steps.version.outputs.version}}
+    steps:
+      - id: version
+        run: |
+          echo "Building application"
+          echo "version=v1.0.0" >> $GITHUB_OUTPUT
+  unit-test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Unit test status 
+        if: github.event.inputs.test_result == 'success'
+        run: echo "Unit test passed"
+      - name: failed 
+        if: github.event.inputs.test_result == 'failed'
+        run: exit 1
+
+  deploy-dev:
+    needs: unit-test
+    if: needs.unit-test.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy-dev status
+        run: echo "Deploying to DEV"
+  
+  deploy-staging:
+    needs: deploy-dev
+    if: needs.deploy-dev.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy-staging status
+        run: echo "Deploying to STAGING"
+  deploy-production:
+    needs: deploy-staging
+    if: needs.deploy-staging.result=='success'
+    runs-on: ubuntu-latest
+    steps:
+    - name: deployment status 
+      if: github.event.inputs.deploy_result == 'success'
+      run: echo "Unit test passed"
+    - name: failed 
+      if: github.event.inputs.deploy_result == 'failed'
+      run: exit 1
