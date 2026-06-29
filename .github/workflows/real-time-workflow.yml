@@ -51,13 +51,13 @@ jobs:
       - name: deploy-staging status
         run: echo "Deploying to STAGING"
   deploy-production:
-    needs: deploy-staging
+    needs: [build,deploy-staging]
     if: needs.deploy-staging.result=='success'
     runs-on: ubuntu-latest
     steps:
     - name: deployment status 
       if: github.event.inputs.deploy_result == 'success'
-      run: echo "Unit test passed"
+      run: echo "Unit test passed and deployed version ${{needs.build.outputs.appversion}}"
     - name: failed 
       if: github.event.inputs.deploy_result == 'failed'
       run: exit 1
