@@ -15,7 +15,6 @@ on:
         
 jobs:
   build:
-    if: always()
     runs-on: ubuntu-latest
     outputs:
       appversion: ${{steps.version.outputs.version}}
@@ -51,6 +50,8 @@ jobs:
       - name: deploy-staging status
         run: echo "Deploying to STAGING"
   deploy-production:
+    environment:
+      name: production
     needs: [build,deploy-staging]
     if: needs.deploy-staging.result=='success'
     runs-on: ubuntu-latest
@@ -62,8 +63,8 @@ jobs:
       if: github.event.inputs.deploy_result == 'failed'
       run: exit 1
   rollback:
-    needs: [build,deploy-staging]
-    if: failure()
+    needs: [build,deploy-production]
+    if: needs.deploy-production.result=='failed'
     runs-on: ubuntu-latest
     steps:
       - name: rolling back 
