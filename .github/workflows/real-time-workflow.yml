@@ -23,7 +23,7 @@ jobs:
       - id: version
         run: |
           echo "Building application"
-          echo "version=v1.0.0" >> $GITHUB_OUTPUT
+          echo "version=v${{github.run_number}}" >> $GITHUB_OUTPUT
   unit-test:
     needs: build
     runs-on: ubuntu-latest
