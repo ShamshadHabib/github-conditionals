@@ -59,7 +59,7 @@ jobs:
     - name: deployment status 
       if: github.event.inputs.deploy_result == 'success'
       run: echo "Successfully deployed version ${{ needs.build.outputs.appversion }} to production"
-    - name: failed 
+    - name: Simulate deployment failure 
       if: github.event.inputs.deploy_result == 'failed'
       run: exit 1
   rollback:
