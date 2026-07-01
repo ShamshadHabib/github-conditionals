@@ -8,8 +8,9 @@ jobs:
       matrix:
         node-version: [40,21]
         os-version: [ubuntu-latest, windows-latest]
+      fail-fast: false
     runs-on:  ${{ matrix.os-version }}
-    continue-on-error: true
+    continue-on-error: false
     steps:
       - name: Get Code
         uses: actions/checkout@v7
