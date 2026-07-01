@@ -8,6 +8,12 @@ jobs:
       matrix:
         node-version: [40,21]
         os-version: [ubuntu-latest, windows-latest]
+        include:
+          - node-version: 18
+            os-version: ubuntu-latest
+        exclude:
+          - node-version: 21
+            os-version: windows-latest
       fail-fast: false
     runs-on:  ${{ matrix.os-version }}
     continue-on-error: false
