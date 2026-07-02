@@ -1,10 +1,19 @@
 name: reuseable workflow
 
-on: workflow_call
+on: 
+  workflow_call: 
+    inputs:
+      age:
+        description: Select your age?
+        default: 18
+        required: false
+        type: number 
+
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: print name
-        run: echo "Hello from reuseable workflow"
+        run: |
+          echo "Hello young man ${{ inputs.age }}"
