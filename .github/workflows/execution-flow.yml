@@ -75,4 +75,5 @@ jobs:
     steps:
       - name: Get output
         run: echo "${{ needs.deploy.outputs.workflow_output_1 }}"
-    
+      - name: print second output
+        run: echo ${{ needs.deploy.outputs.secondoutput }}
