@@ -67,3 +67,5 @@ jobs:
   deploy:
     needs: build
     uses: ./.github/workflows/reuseable-workflow.yml
+    with:
+      age: 35
