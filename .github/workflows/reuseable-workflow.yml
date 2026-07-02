@@ -8,12 +8,19 @@ on:
         default: 18
         required: false
         type: number 
-
+    outputs:
+      workflow_output_1:
+        description: "The first job output"
+        value: ${{ jobs.deploy.outputs.outcome }}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs:
+      outcome: ${{ steps.output1.outputs.job_output1}}
     steps:
       - name: print name
+        id: output1
         run: |
           echo "Hello young man ${{ inputs.age }}"
+          echo "job_output1=testoutputjob" >> $GITHUB_OUTPUT

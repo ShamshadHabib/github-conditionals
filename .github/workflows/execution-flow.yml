@@ -69,3 +69,10 @@ jobs:
     uses: ./.github/workflows/reuseable-workflow.yml
     with:
       age: 35
+  printOutput:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get output
+        run: echo "${{ needs.deploy.outputs.workflow_output_1 }}"
+    
